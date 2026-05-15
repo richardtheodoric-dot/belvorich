@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Belvorich — Build What's Yours.</title>
+<link rel="icon" type="image/png" href="favicon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --base:#F5F0EB;
+  --base2:#EDE8DF;
+  --base3:#E4DDD3;
+  --dark:#06112C;
+  --dark2:#0D1E4A;
+  --navy:#0F2660;
+  --ac:#1B47D8;
+  --ac-lt:#4169E8;
+  --ac-dim:rgba(27,71,216,.07);
+  --ac-border:rgba(27,71,216,.15);
+  --red:#B83232;
+  --red-lt:#CF4444;
+  --red-dim:rgba(184,50,50,.07);
+  --red-border:rgba(184,50,50,.18);
+  --orange:#E07010;
+  --orange-lt:#F08828;
+  --orange-dim:rgba(224,112,16,.09);
+  --orange-border:rgba(224,112,16,.24);
+  --green:#16A34A;
+  --green-lt:#22C55E;
+  --green-dim:rgba(22,163,74,.07);
+  --green-border:rgba(22,163,74,.16);
+  --text:#0B1629;
+  --muted:#64748B;
+  --muted-lt:#94A3B8;
+  --border:#DDD8D0;
+  --border-md:rgba(14,30,80,.1);
+  --shadow:0 1px 4px rgba(14,30,80,.06),0 8px 24px rgba(14,30,80,.04);
+  --shadow-md:0 4px 16px rgba(14,30,80,.1),0 24px 56px rgba(14,30,80,.07);
+  --paper:linear-gradient(135deg,rgba(224,112,16,.018) 0%,transparent 45%,rgba(22,163,74,.015) 100%);
+  --paper-soft:#F5F0EB;
+}
+html{scroll-behavior:smooth}
+body{background:var(--paper-soft);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;overflow-x:hidden;padding-top:112px}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;height:112px;background:rgba(245,240,235,.96);border-bottom:1px solid var(--border);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:space-between;padding:0 56px}
+nav.scrolled{background:rgba(245,240,235,.98);box-shadow:0 10px 30px rgba(14,30,80,.06)}
+.nav-logo img{height:100px;filter:invert(1) sepia(1) saturate(3) hue-rotate(200deg) brightness(.2);opacity:.95}
+.nav-tabs{display:flex;align-items:center;gap:0}
+.nav-tab{padding:6px 24px;font-size:10.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-lt);border:none;background:none;cursor:pointer;position:relative;transition:color .2s}
+.nav-tab.active{color:var(--ac);font-weight:700}
+.nav-tab.active::after{content:'';position:absolute;bottom:-1px;left:24px;right:24px;height:2px;background:var(--ac);border-radius:1px 1px 0 0}
+.nav-tab:not(.active):hover{color:var(--text)}
+.nav-sep{width:1px;height:14px;background:var(--border);margin:0 4px;flex-shrink:0}
+.nav-cta{padding:10px 24px;background:var(--red);color:#fff;font-family:'Outfit',sans-serif;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:2px solid var(--red);cursor:pointer;transition:all .2s;border-radius:999px;box-shadow:0 6px 18px rgba(184,50,50,.2)}
+.nav-cta:hover{background:var(--red-lt);border-color:var(--red-lt);transform:translateY(-1px);box-shadow:0 8px 22px rgba(184,50,50,.28)}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}
+
+/* ── PANELS ── */
+.panel{display:none}.panel.active{display:block;background:var(--base)}
+
+/* ── SWITCHER ── */
+.switcher{display:flex;border-bottom:2px solid var(--border);background:var(--base);position:sticky;top:72px;z-index:200}
+.sw-panel{flex:1;padding:20px 56px;cursor:pointer;border:none;background:none;color:var(--muted);display:flex;align-items:center;gap:18px;transition:all .3s;border-bottom:3px solid transparent;margin-bottom:-2px;text-align:left}
+.sw-panel.active{background:var(--ac-dim);border-bottom-color:var(--ac);color:var(--text)}
+.sw-panel:not(.active):hover{background:var(--base2);color:var(--text)}
+.sw-num{font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--ac);margin-bottom:3px}
+.sw-title{font-size:16px;font-weight:700}
+.sw-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+/* ── SHARED ── */
+.wrap{max-width:1200px;margin:0 auto;padding:0 56px}
+.tag{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:16px;display:block}
+.tag-red{color:var(--orange)}
+.tag-green{color:var(--green)}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;transition:all .22s;border-radius:6px}
+.btn-ac{background:var(--ac);color:#fff}.btn-ac:hover{background:var(--ac-lt);transform:translateY(-1px)}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:var(--red-lt);transform:translateY(-1px)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:var(--green-lt);transform:translateY(-1px);box-shadow:0 4px 16px rgba(22,163,74,.24)}
+.btn-ghost-dark{background:transparent;color:var(--text);border:1.5px solid var(--border-md)}.btn-ghost-dark:hover{border-color:var(--ac);color:var(--ac)}
+.btn-ghost-white{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.25)}.btn-ghost-white:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.btn-sm{padding:9px 22px;font-size:11px}
+.arrow{display:inline-block;transition:transform .2s}.btn:hover .arrow{transform:translateX(4px)}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(32px) scale(.98);filter:blur(5px);transition:opacity .82s cubic-bezier(.22,1,.36,1),transform .82s cubic-bezier(.22,1,.36,1),filter .82s cubic-bezier(.22,1,.36,1)}
+.rv.on{opacity:1;transform:translateY(0)}
+.rv.on{filter:blur(0)}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ══════════════════════════════════════
+   PANEL 1
+══════════════════════════════════════ */
+
+/* HERO */
+#hero{min-height:calc(100svh - 64px);display:flex;align-items:center;position:relative;overflow:visible;background:linear-gradient(140deg,#F8F4EE 0%,#F2EDE6 100%)}
+.hero-wrap{padding:34px 56px 42px;max-width:1200px;margin:0 auto;width:100%}
+.urgency-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;background:var(--orange-dim);border:1px solid var(--orange-border);border-radius:999px;margin-bottom:24px;animation:fadeUp .6s .1s both}
+.urgency-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:blink 1.2s infinite;flex-shrink:0}
+.urgency-badge span{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
+.hero-h{font-size:clamp(40px,5.2vw,68px);font-weight:900;line-height:1.04;letter-spacing:-.02em;max-width:920px;animation:fadeUp .7s .2s both;color:var(--text)}
+.hero-h .rd{color:var(--red)}
+.hero-sub{margin-top:16px;font-size:16px;font-weight:400;color:var(--muted);max-width:560px;line-height:1.45;animation:fadeUp .7s .35s both}
+.hero-target{margin-top:10px;font-size:12px;font-weight:600;color:var(--ac);animation:fadeUp .6s .45s both;display:block}
+.hero-stats{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;animation:fadeUp .7s .5s both}
+.hstat{padding:18px 22px;background:rgba(255,252,248,.92);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow)}
+.hstat .num{font-size:34px;font-weight:900;line-height:1;margin-bottom:6px}
+.hstat .num.rd{color:var(--red)}.hstat .num.gn{color:var(--green)}.hstat .num.ac{color:var(--ac)}
+.hstat .lbl{font-size:12px;color:var(--muted);line-height:1.55}
+.hstat .src{display:block;margin-top:8px;font-size:9.5px;color:var(--muted-lt);font-weight:600;text-decoration:none;letter-spacing:.05em}
+.hstat .src:hover{color:var(--ac)}
+.hero-actions{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .7s .65s both}
+.hero-note{margin-top:10px;font-size:11px;color:var(--muted-lt);animation:fadeUp .6s .8s both}
+
+/* LIVE COUNTER */
+.counter-strip{background:var(--red-dim);border-top:2px solid var(--red-border);border-bottom:1px solid var(--red-border);padding:20px 0}
+.counter-inner{max-width:1200px;margin:0 auto;padding:0 56px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.counter-label{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--red)}
+.counter-num{font-size:28px;font-weight:900;color:var(--red);font-variant-numeric:tabular-nums}
+.counter-sub{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* FEE COMPARISON */
+.fee-sec{padding:88px 0;background:var(--base2)}
+.fee-compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
+.compare-kicker{margin-top:28px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.compare-kicker::before,.compare-kicker::after{content:'';height:1px;background:var(--border);flex:1}
+.fee-col{padding:44px;border:1px solid var(--border);background:rgba(255,252,248,.9);border-radius:8px;overflow:hidden}
+.fee-col.then{border-top:4px solid var(--ac)}
+.fee-col.now{border-top:4px solid var(--red)}
+.fee-col-year{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin-bottom:20px}
+.fee-col-year.ac{color:var(--ac)}.fee-col-year.rd{color:var(--red)}
+.fee-col-label{display:inline-flex;align-items:center;margin-bottom:18px;padding:6px 12px;border:1px solid var(--border);border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.fee-col-label.old{color:var(--ac);background:var(--ac-dim);border-color:var(--ac-border)}
+.fee-col-label.new{color:var(--red);background:var(--red-dim);border-color:var(--red-border)}
+.fee-pct-big{font-size:96px;font-weight:900;line-height:1;letter-spacing:-.04em;margin-bottom:4px}
+.fee-pct-big.ac{color:var(--ac)}.fee-pct-big.rd{color:var(--red)}
+.fee-pct-desc{font-size:14px;color:var(--muted);margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border);line-height:1.5}
+.fee-rows{display:flex;flex-direction:column;gap:12px}
+.fee-row{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.fee-row:last-child{border:none;padding:0}
+.fee-row .k{color:var(--muted)}.fee-row .v{font-weight:800}
+.fee-row .v.rd{color:var(--red)}.fee-row .v.gn{color:var(--green)}.fee-row .v.ac{color:var(--ac)}
+.fee-src-line{margin-top:20px;font-size:11px;color:var(--muted-lt)}
+.fee-src-line a{color:var(--ac);text-decoration:none;font-weight:600}
+.fee-src-line a:hover{text-decoration:underline}
+/* Fee delta callout */
+.fee-delta{margin-top:20px;padding:28px;background:var(--red-dim);border:1px solid var(--red-border);border-radius:8px;text-align:center}
+.fee-delta-num{font-size:52px;font-weight:900;color:var(--red);line-height:1}
+.fee-delta-label{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.6}
+
+/* FEE TIMELINE CHART */
+.fee-chart-sec{padding:80px 0 88px;background:var(--base)}
+.fee-chart-wrap{margin-top:8px;padding:44px;background:rgba(255,252,248,.95);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow)}
+.fee-chart-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+.fee-chart-sub{font-size:12px;color:var(--muted);margin-bottom:32px}
+/* PROFIT COMPARISON */
+.profit-sec{padding:80px 0;background:var(--base2)}
+.profit-table{margin-top:44px;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#fff;box-shadow:var(--shadow-md)}
+.pt-row{display:grid;grid-template-columns:2fr 1fr 1fr}
+.pt-row+.pt-row{border-top:1px solid var(--border)}
+.pt-row.pt-header{background:#fff}
+.pt-row.pt-total{background:#fff;border-top:2px solid var(--border-md)}
+.pt-cell{padding:15px 28px;font-size:13.5px;color:var(--text)}
+.pt-cell.pt-lbl{color:var(--muted);font-weight:400}
+.pt-cell.pt-head{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:13px 28px;color:var(--muted)}
+.pt-cell.pt-head.bad{color:var(--red)}
+.pt-cell.pt-head.gn{color:var(--green)}
+.pt-cell.pt-val{font-weight:600;text-align:right;border-left:1px solid var(--border)}
+.pt-cell.pt-val.rd{color:var(--red)}
+.pt-cell.pt-val.gn{color:var(--green)}
+.pt-cell.pt-val.ac{color:var(--ac)}
+.pt-cell.pt-val.dim{color:var(--muted-lt);font-weight:400;font-style:italic}
+.pt-cell.pt-total-lbl{font-size:14px;font-weight:700;padding:22px 28px}
+.pt-cell.pt-total-val{text-align:right;border-left:1px solid var(--border);padding:20px 28px}
+.pt-total-num{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1.1}
+.pt-total-num.bad{color:var(--red)}.pt-total-num.gn{color:var(--green)}
+.pt-total-pct{font-size:11px;font-weight:500;color:var(--muted);margin-top:4px}
+.profit-delta{margin-top:14px;padding:22px 28px;background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.profit-delta-big{font-size:19px;font-weight:800;color:var(--green)}
+.profit-delta-sub{font-size:13px;color:var(--muted);margin-top:3px}
+
+/* SAVINGS CALCULATOR */
+.calc-sec{padding:80px 0;background:var(--base2)}
+.calc-card{margin-top:36px;background:#fff;border:1px solid var(--border-md);border-radius:10px;box-shadow:0 8px 32px rgba(14,30,80,.12),0 2px 8px rgba(14,30,80,.06);overflow:hidden}
+.calc-inputs{padding:28px 34px;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:24px;background:#fff;border-bottom:1px solid var(--border);align-items:start}
+.calc-field{display:flex;flex-direction:column;gap:7px}
+.calc-field label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.calc-field input{width:100%;border:1.5px solid var(--border);border-radius:6px;background:#fff;color:var(--text);font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;padding:12px 14px;outline:none}
+.calc-field input:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-dim)}
+.calc-fixed{width:100%;border:1.5px solid var(--green-border);border-radius:6px;background:var(--green-dim);color:var(--green);font-size:17px;font-weight:900;padding:12px 14px}
+.calc-fixed.red{border-color:var(--red-border);background:var(--red-dim);color:var(--red)}
+.calc-fixed-note{font-size:11px;color:var(--muted-lt);line-height:1.4}
+.calc-results{padding:28px 34px;background:#fff;border-top:1px solid var(--border);display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px 28px;align-items:start}
+.calc-result-main{grid-column:1}
+.calc-vs{grid-column:2/span 2;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-self:center}
+.calc-row{display:flex;flex-direction:column;gap:4px;padding:12px 0;border-top:1px solid var(--border)}
+.calc-row span{font-size:12px;color:var(--muted)}
+.calc-row strong{font-size:16px}
+.calc-row:first-of-type{border-top:none;padding-top:0}
+.calc-note{grid-column:1/-1;padding:12px 14px;background:var(--base2);border:1px solid var(--border);border-radius:6px;font-size:11px;line-height:1.5;color:var(--muted)}
+.calc-result-main{padding:24px;background:var(--green-dim);border:1px solid var(--green-border);border-radius:8px}
+.calc-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.calc-value{font-size:38px;font-weight:900;letter-spacing:-.02em;color:var(--green);line-height:1.05}
+.calc-row{display:flex;justify-content:space-between;gap:16px;font-size:13px;color:var(--muted);padding:14px 0;border-top:1px solid var(--border)}
+.calc-row:first-of-type{border-top:none;padding-top:0}
+.calc-row strong{font-size:15px;color:var(--text)}
+.calc-row strong.rd{color:var(--red)}
+.calc-row strong.gn{color:var(--green)}
+.calc-note{margin-top:auto;padding:12px 14px;background:var(--base2);border:1px solid var(--border);border-radius:6px;font-size:11px;line-height:1.5;color:var(--muted)}
+.calc-vs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.calc-pill{padding:13px 14px;border:1px solid var(--border);border-radius:6px}
+.calc-pill.market{background:var(--red-dim);border-color:var(--red-border)}
+.calc-pill.web{background:var(--green-dim);border-color:var(--green-border)}
+.calc-pill .mini{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.calc-pill.market strong{color:var(--red)}
+.calc-pill.web strong{color:var(--green)}
+
+/* PAIN CARDS */
+.pain-sec{padding:88px 0;background:var(--base)}
+.pain-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:36px}
+.pain-card{padding:30px 30px;background:rgba(255,252,248,.88);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:box-shadow .3s,transform .3s}
+.pain-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.pain-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--orange);transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.pain-card:hover::after{transform:scaleX(1)}
+.pain-num{font-size:52px;font-weight:900;color:var(--orange);line-height:1;margin-bottom:14px;display:block}
+.pain-card h3{font-size:17px;font-weight:700;line-height:1.35;margin-bottom:12px}
+.pain-card p{font-size:13px;color:var(--muted);line-height:1.55}
+.pain-tag{display:inline-flex;align-items:center;margin-top:16px;padding:5px 12px;background:var(--orange-dim);border:1px solid var(--orange-border);border-radius:999px;font-size:10px;font-weight:700;color:var(--orange);letter-spacing:.08em;text-transform:uppercase}
+.pain-card.highlight{background:rgba(201,106,20,.04);border-color:var(--orange-border)}
+
+/* BRIDGE */
+.bridge{padding:100px 56px;text-align:center;background:linear-gradient(135deg,var(--base3) 0%,var(--base) 48%,var(--base2) 100%);overflow:hidden;position:relative}
+.bridge::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(27,71,216,.04),transparent 38%,rgba(22,163,74,.03));pointer-events:none}
+.bridge-inner{max-width:900px;margin:0 auto;position:relative}
+.bridge h2{font-size:clamp(36px,5vw,62px);font-weight:900;line-height:1.08;margin-bottom:20px;letter-spacing:-.02em;color:var(--text)}
+.bridge h2 .ac{color:var(--ac)}.bridge h2 .rd{color:var(--red)}
+.bridge p{font-size:18px;color:var(--muted);margin:0 auto 30px;line-height:1.55;max-width:640px}
+.trust-points{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:30px auto;max-width:820px}
+.trust-point{padding:28px 22px;background:rgba(255,252,248,.85);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);text-align:center;display:flex;flex-direction:column;align-items:center}
+.trust-point-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-shrink:0}
+.trust-point-icon.pay{background:var(--ac-dim)}
+.trust-point-icon.buy{background:var(--green-dim)}
+.trust-point-icon.find{background:var(--orange-dim)}
+.trust-point-icon svg{width:20px;height:20px}
+.trust-point strong{display:block;font-size:14px;font-weight:800;color:var(--text);margin-bottom:6px}
+.trust-point span{display:block;font-size:12px;color:var(--muted);line-height:1.45}
+.bridge-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.bridge-note{margin-top:28px;font-size:12px;color:var(--muted-lt)}
+
+/* ══════════════════════════════════════
+   PANEL 2
+══════════════════════════════════════ */
+.svc-hero{min-height:calc(100svh - 64px);padding:88px 56px 72px;max-width:1200px;margin:0 auto;display:flex;flex-direction:column;justify-content:center}
+.svc-hero h1{font-size:clamp(40px,5.5vw,70px);font-weight:900;line-height:1.06;letter-spacing:-.02em;margin-bottom:20px}
+.svc-hero h1 .ac{color:var(--ac)}
+.svc-hero p{font-size:18px;color:var(--muted);max-width:560px;line-height:1.8;margin-bottom:32px}
+
+.work-system{padding:80px 0;background:var(--base2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.work-system-head{display:flex;justify-content:space-between;align-items:end;gap:48px;margin-bottom:32px}
+.work-system h2{font-size:clamp(28px,3.5vw,44px);font-weight:900;line-height:1.12;letter-spacing:-.02em;max-width:620px}
+.work-system h2 .gn{color:var(--green)}
+.work-system-head p{font-size:15px;color:var(--muted);line-height:1.55;max-width:420px}
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.work-card{background:rgba(255,252,248,.92);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);padding:36px 32px;position:relative;overflow:hidden}
+.wc-step{display:block;font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-lt);margin-bottom:18px}
+.work-card h3{font-size:18px;font-weight:800;margin-bottom:20px;color:var(--text);line-height:1.25}
+.feature-checks{display:flex;flex-direction:column;gap:0;list-style:none}
+.feature-checks li{font-size:13px;font-weight:500;color:var(--text);display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);line-height:1.3}
+.feature-checks li:last-child{border-bottom:none;padding-bottom:0}
+.feature-checks li::before{content:'';width:20px;height:20px;border-radius:50%;background:var(--green-dim);border:1.5px solid var(--green-border);flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 10l3.5 3.5L15 7' stroke='%2316A34A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-size:contain;background-repeat:no-repeat}
+.process-steps{list-style:none;display:grid;gap:10px}
+.process-steps li{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start}
+.step-num{width:30px;height:30px;border-radius:999px;background:var(--red-dim);border:1px solid var(--red-border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:var(--red)}
+.step-copy strong{display:block;font-size:13px;color:var(--text);margin-bottom:3px}
+.step-copy span{font-size:11.5px;color:var(--muted);line-height:1.4;display:block}
+.trust-builder{display:grid;gap:12px}
+.trust-line{padding:12px 0;border-bottom:1px solid var(--border)}
+.trust-line:last-child{border-bottom:none;padding-bottom:0}
+.trust-line strong{display:block;font-size:13px;color:var(--text);margin-bottom:4px}
+.trust-line span{font-size:11.5px;color:var(--muted);line-height:1.4;display:block}
+
+.svc-section{padding:80px 0}
+.svc-section.alt{background:var(--base2)}
+.svc-split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.svc-tag{font-size:10px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ac);margin-bottom:16px;display:block}
+.svc-h{font-size:clamp(28px,3.5vw,44px);font-weight:800;margin-bottom:16px;line-height:1.2}
+.svc-h .ac{color:var(--ac)}.svc-h .gn{color:var(--green)}
+.svc-p{font-size:15px;color:var(--muted);line-height:1.55;margin-bottom:22px}
+.svc-list{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:28px}
+.svc-list li{font-size:13px;color:var(--text);display:flex;gap:10px;align-items:flex-start}
+.svc-list li::before{content:'→';color:var(--ac);flex-shrink:0;font-weight:700}
+.svc-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.svc-stat{padding:18px 20px;background:rgba(255,252,248,.92);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow)}
+.svc-stat .big{font-size:30px;font-weight:900;line-height:1;color:var(--green)}
+.svc-stat .sml{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4}
+
+/* PORTFOLIO */
+.porto-sec{padding:88px 0;background:var(--base)}
+.porto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:48px}
+.porto-item{display:flex;align-items:center;justify-content:center;padding:48px 36px;background:var(--base);transition:background .25s;text-decoration:none;min-height:140px}
+.porto-item:hover{background:var(--base2)}
+.porto-item svg{width:160px;height:auto;opacity:.4;transition:opacity .25s}
+.porto-item:hover svg{opacity:.8}
+.porto-cta{background:var(--ac-dim);border:2px dashed var(--ac-border);flex-direction:column;gap:8px}
+.porto-cta:hover{background:var(--base3)}
+.porto-cta .plus{font-size:24px;color:var(--ac);opacity:.5}
+.porto-cta .lbl{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--ac);opacity:.6;text-align:center}
+
+/* FINAL CTA */
+.final-cta{padding:120px 56px;text-align:center;background:linear-gradient(145deg,var(--base3) 0%,var(--base) 55%,var(--base2) 100%);overflow:hidden;position:relative}
+.final-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(27,71,216,.04),transparent 42%,rgba(184,50,50,.03))}
+.final-cta-inner{max-width:680px;margin:0 auto;position:relative}
+.slots-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;background:var(--red-dim);border:1px solid var(--red-border);border-radius:999px;margin-bottom:32px}
+.slots-badge span{font-size:12px;font-weight:700;color:var(--red)}
+.final-cta h2{font-size:clamp(34px,4.5vw,56px);font-weight:900;line-height:1.08;margin-bottom:20px;letter-spacing:-.02em;color:var(--text)}
+.final-cta h2 .rd{color:var(--red)}.final-cta h2 .ac{color:var(--ac)}
+.final-cta p{font-size:17px;color:var(--muted);margin-bottom:34px;line-height:1.55}
+.final-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.final-note{margin-top:16px;font-size:11.5px;color:var(--muted-lt)}
+
+/* FOOTER */
+footer{padding:40px 56px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;background:var(--base3)}
+.footer-logo img{height:100px;filter:invert(1) sepia(1) saturate(3) hue-rotate(200deg) brightness(.2)}
+.footer-links{display:flex;gap:24px}
+.footer-links a{font-size:11.5px;color:var(--muted);text-decoration:none;letter-spacing:.06em;transition:color .2s}
+.footer-links a:hover{color:var(--text)}
+.footer-links a[href*="wa.me"]{color:var(--green);font-weight:700}
+.footer-copy{font-size:11.5px;color:var(--muted-lt)}
+
+/* FLOATING WA */
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:400;width:52px;height:52px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.35);text-decoration:none;transition:transform .2s,box-shadow .2s}
+.wa-float:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(37,211,102,.5)}
+.wa-float svg{width:25px;height:25px;fill:#fff}
+
+@media(hover:hover){
+  .hstat,.fee-col,.calc-card,.porto-item,.svc-stat,.pt-row,.calc-pill,.work-card{transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease,background .28s ease}
+  .hstat:hover,.fee-col:hover,.calc-card:hover,.svc-stat:hover,.work-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+  .porto-item:hover{transform:translateY(-2px)}
+  .pt-row:not(.pt-header):hover{background:rgba(27,71,216,.025)}
+  .calc-pill:hover{transform:translateY(-2px)}
+}
+
+.scroll-soft{transition:transform .18s linear}
+
+/* MOBILE */
+@media(max-width:960px){
+  nav{padding:0 14px;height:112px}
+  body{padding-top:112px}
+  .nav-logo img{height:100px}
+  .nav-tabs{display:flex;gap:0;margin-left:auto}
+  .nav-tab{padding:6px 10px;font-size:9px;letter-spacing:.08em}
+  .nav-tab.active::after{left:10px;right:10px}
+  .nav-sep{height:12px;margin:0 2px}
+  .mob-tabs{display:none!important}
+  .mob-tab{flex:1;padding:14px;text-align:center;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer}
+  .mob-tab.active{color:var(--ac)}
+  body{padding-top:112px}
+  #hero{min-height:auto}
+  .hero-wrap{padding:34px 20px 44px}
+  .svc-hero{min-height:calc(100svh - 112px);padding:34px 20px 44px;display:flex;flex-direction:column;justify-content:center}
+  .wrap{padding:0 20px}
+  .rv{transform:translateY(10px);transition-duration:.28s}
+  .d1,.d2,.d3,.d4{transition-delay:0s}
+  .tag{font-size:9px;margin-bottom:10px}
+  .btn{width:100%;justify-content:center;padding:12px 18px}
+  .urgency-badge{margin-bottom:22px;padding:6px 12px}
+  .urgency-badge span{font-size:9px;letter-spacing:.08em}
+  .hero-h{font-size:clamp(34px,12vw,52px);line-height:1.02}
+  .hero-sub{font-size:15px;line-height:1.45;margin-top:16px}
+  .hero-target{font-size:12px;margin-top:10px}
+  .hero-stats{grid-template-columns:repeat(3,1fr);margin-top:24px;gap:8px}
+  .hstat{padding:14px 10px}
+  .hstat .num{font-size:26px}
+  .hstat .lbl{font-size:10px;line-height:1.35}
+  .hstat .src{display:none}
+  .hero-actions{margin-top:24px}
+  .counter-strip{padding:14px 0}
+  .counter-inner{padding:0 20px;align-items:center;gap:14px;display:grid;grid-template-columns:1fr 1fr}
+  .counter-num{font-size:24px}
+  .counter-label{font-size:9.5px;letter-spacing:.1em}
+  .counter-sub{font-size:10px}
+  .counter-inner>div:last-child{width:100%}
+  .counter-inner input{width:100%!important;font-size:16px!important}
+  .counter-inner button{align-self:stretch!important}
+  .fee-sec,.profit-sec,.calc-sec,.pain-sec,.svc-section,.porto-sec,.work-system{padding:50px 0}
+  .fee-chart-sec{padding:0 0 50px}
+  .bridge,.final-cta{padding:58px 20px}
+  .fee-sec h2,.fee-chart-sec h2,.profit-sec h2,.calc-sec h2,.pain-sec h2,.svc-hero h1,.bridge h2,.final-cta h2,.work-system h2{font-size:clamp(26px,9vw,38px)!important;line-height:1.08!important}
+  .fee-sec p,.fee-chart-sec p,.profit-sec p,.calc-sec p,.svc-hero p,.bridge p,.final-cta p,.work-system-head p{font-size:14px!important;line-height:1.45!important}
+  .compare-kicker{font-size:9.5px;letter-spacing:.08em;margin-top:20px}
+  .fee-compare,.pain-cards,.roas-cols,.profit-grid,.svc-split,.calc-card{grid-template-columns:1fr}
+  .fee-compare{margin-top:22px;gap:14px}
+  .fee-col{padding:24px}
+  .fee-col-label{margin-bottom:12px;font-size:9px}
+  .fee-col-year{font-size:9px;letter-spacing:.16em;margin-bottom:12px}
+  .fee-pct-big{font-size:58px}
+  .fee-pct-desc{font-size:12px;margin-bottom:16px;padding-bottom:16px}
+  .fee-rows{gap:8px}
+  .fee-row{font-size:12px;padding-bottom:8px;gap:14px}
+  .fee-src-line{margin-top:12px}
+  .fee-delta{padding:20px}
+  .fee-delta-num{font-size:36px}
+  .fee-chart-wrap{padding:24px;overflow-x:auto}
+  .fee-chart-wrap svg{min-width:680px}
+  .profit-table{margin-top:24px}
+  .pt-row{grid-template-columns:1.25fr 1fr 1fr}
+  .pt-cell{padding:12px 10px;font-size:11.5px}
+  .pt-cell.pt-head{font-size:8.5px;letter-spacing:.08em;padding:10px}
+  .pt-cell.pt-total-lbl{font-size:12px;padding:14px 10px}
+  .pt-cell.pt-total-val{padding:14px 10px}
+  .pt-total-num{font-size:18px}
+  .pt-total-pct{font-size:9.5px}
+  .profit-delta{padding:18px;gap:14px}
+  .profit-delta-big{font-size:16px}
+  .calc-card{margin-top:24px}
+  .calc-inputs{grid-template-columns:1fr;padding:22px;gap:14px}
+  .calc-results{grid-template-columns:1fr;border-top:1px solid var(--border);padding:22px;gap:12px}
+  .calc-vs{grid-template-columns:1fr 1fr}
+  .calc-field label{font-size:8.5px;letter-spacing:.08em}
+  .calc-field input,.calc-fixed{font-size:15px;padding:10px 12px}
+  .calc-fixed-note{font-size:10px}
+  .calc-results{padding:22px;border-left:none}
+  .calc-result-main{padding:18px}
+  .calc-value{font-size:28px}
+  .calc-vs{grid-template-columns:1fr;gap:8px}
+  .calc-row{font-size:12px;align-items:flex-start}
+  .calc-row strong{font-size:13px;text-align:right}
+  .pain-cards{gap:12px;margin-top:22px}
+  .pain-card{padding:22px}
+  .pain-num{font-size:36px;margin-bottom:10px}
+  .pain-card h3{font-size:15px;margin-bottom:8px}
+  .pain-card p{font-size:12px}
+  .pain-tag{font-size:8.5px;margin-top:12px}
+  .bridge-note{font-size:11px}
+  .trust-points{grid-template-columns:1fr;gap:10px;margin:22px auto}
+  .trust-point{padding:14px 16px}
+  .trust-point strong{font-size:13px}
+  .trust-point span{font-size:11.5px}
+  .work-system-head{display:block;margin-bottom:24px}
+  .work-system-head p{margin-top:12px}
+  .work-grid{grid-template-columns:1fr;gap:12px}
+  .work-card{padding:18px}
+  .wc-step{margin-bottom:10px}
+  .work-card h3{font-size:15px;margin-bottom:12px}
+  .feature-checks{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  .feature-checks li{font-size:12px;padding:8px 0;gap:8px}
+  .feature-checks li::before{width:16px;height:16px}
+  .svc-split{gap:28px}
+  .svc-section.alt .svc-split>div:first-child{order:2}
+  .svc-section.alt .svc-split>div:last-child{order:1}
+  .svc-h{font-size:clamp(24px,8vw,34px);margin-bottom:12px}
+  .svc-p{font-size:14px}
+  .svc-list{gap:7px;margin-bottom:20px}
+  .svc-list li{font-size:12px}
+  .svc-stats{grid-template-columns:1fr 1fr;gap:8px}
+  .svc-stat{padding:14px}
+  .svc-stat .big{font-size:24px}
+  .svc-stat .sml{font-size:10px}
+  .porto-grid{grid-template-columns:1fr 1fr}
+  .porto-grid{margin-top:24px}
+  .porto-item{min-height:96px;padding:28px 20px}
+  .porto-item svg{width:120px}
+  .slots-badge{margin-bottom:20px}
+  .final-actions{gap:10px}
+  .sw-panel{padding:16px 20px}
+  footer{padding:24px 20px;flex-direction:column;align-items:center;text-align:center;gap:12px}
+  .footer-logo img{height:100px}
+  .footer-links{gap:10px;flex-wrap:wrap;justify-content:center}
+  .wa-float{bottom:22px}
+}
+@media(max-width:580px){
+  .hero-wrap{padding:26px 18px 36px}
+  .svc-hero{min-height:calc(100svh - 112px);padding:26px 18px 36px}
+  .wrap{padding:0 18px}
+  .fee-sec,.profit-sec,.calc-sec,.pain-sec,.svc-section,.porto-sec,.work-system{padding:38px 0}
+  .fee-chart-sec{padding:0 0 38px}
+  .bridge,.final-cta{padding:44px 18px}
+  .trust-points{grid-template-columns:1fr 1fr;gap:8px;margin:18px auto}
+  .trust-point{padding:12px}
+  .trust-point strong{font-size:11px;margin-bottom:4px}
+  .trust-point span{font-size:9.5px;line-height:1.3}
+  .trust-point:nth-child(3){grid-column:1/-1}
+  .work-system-head{margin-bottom:18px}
+  .work-system h2{font-size:28px!important}
+  .work-grid{gap:8px}
+  .work-card{padding:14px;border-radius:8px}
+  .work-card h3{font-size:13px;margin-bottom:8px}
+  .feature-checks li{font-size:9.5px;padding:6px 0;gap:6px;line-height:1.25}
+  .feature-checks li::before{width:14px;height:14px}
+  .process-steps{gap:8px}
+  .process-steps li{grid-template-columns:24px 1fr;gap:8px}
+  .step-num{width:24px;height:24px;font-size:9px}
+  .step-copy strong,.trust-line strong{font-size:10.5px}
+  .step-copy span,.trust-line span{font-size:9.5px;line-height:1.3}
+  .trust-line{padding:8px 0}
+  .hero-h{font-size:34px}
+  .hero-sub{font-size:14px}
+  .counter-strip{padding:12px 0}
+  .counter-inner{grid-template-columns:1fr;gap:10px}
+  .counter-label{font-size:8.5px;letter-spacing:.08em}
+  .counter-num{font-size:28px}
+  .counter-sub{font-size:10px;margin-top:0}
+  .counter-inner label{font-size:9px!important}
+  .counter-inner input{font-size:17px!important;padding:9px 12px!important}
+  .counter-inner button{padding:11px 16px}
+  .counter-inner>div:last-child{display:grid!important;grid-template-columns:1fr;gap:10px!important}
+  .hero-stats{grid-template-columns:repeat(3,1fr);gap:6px}
+  .hstat{padding:12px 8px}
+  .hstat .num{font-size:22px}
+  .hstat .lbl{font-size:9px;line-height:1.25}
+  .hstat:nth-child(1) .lbl{font-size:0}
+  .hstat:nth-child(1) .lbl::after{content:'2026 marketplace fee';font-size:9px;line-height:1.25}
+  .hstat:nth-child(2) .lbl{font-size:0}
+  .hstat:nth-child(2) .lbl::after{content:'vs 2020 baseline';font-size:9px;line-height:1.25}
+  .hstat:nth-child(3) .lbl{font-size:0}
+  .hstat:nth-child(3) .lbl::after{content:'website payment fee';font-size:9px;line-height:1.25}
+  .fee-pct-big{font-size:48px}
+  .fee-sec .tag{margin-bottom:8px}
+  .fee-sec h2{font-size:30px!important;max-width:360px!important}
+  .fee-sec p{max-width:340px}
+  .compare-kicker{font-size:8.5px;margin-top:16px;gap:8px}
+  .fee-compare{grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+  .fee-col{padding:14px 12px}
+  .fee-col-label{font-size:7px;letter-spacing:.06em;padding:4px 6px;margin-bottom:8px}
+  .fee-col-year{font-size:7px;letter-spacing:.08em;margin-bottom:8px}
+  .fee-pct-big{font-size:34px}
+  .fee-pct-desc{display:none}
+  .fee-rows{gap:6px}
+  .fee-row{display:block;font-size:10px;padding-bottom:6px}
+  .fee-row .k{display:block;margin-bottom:2px}
+  .fee-row .v{display:block}
+  .fee-src-line{display:none}
+  .fee-delta{padding:16px;margin-top:12px}
+  .fee-delta-num{font-size:30px}
+  .fee-delta-label{font-size:11px;line-height:1.35}
+  .fee-chart-wrap{padding:18px}
+  .fee-chart-wrap svg{min-width:0}
+  .porto-grid{grid-template-columns:1fr 1fr}
+  .porto-item{min-height:86px;padding:18px 12px}
+  .porto-item svg{width:96px}
+  .nav-cta{display:none}
+  .svc-stats{grid-template-columns:1fr 1fr}
+  .svc-stat{padding:12px}
+  .svc-stat .big{font-size:22px}
+  .svc-stat .sml{font-size:9.5px;line-height:1.25}
+  .calc-inputs{grid-template-columns:1fr}
+  .pt-row{grid-template-columns:1fr}
+  .profit-sec h2{font-size:30px!important;max-width:360px!important}
+  .profit-sec p{max-width:350px}
+  .profit-table{margin-top:18px}
+  .pt-row{grid-template-columns:1.15fr .92fr .92fr}
+  .pt-cell{padding:10px 8px;font-size:10.5px}
+  .pt-cell.pt-head{display:block;font-size:7.5px;letter-spacing:.06em;padding:8px 6px}
+  .pt-cell.pt-val{border-left:1px solid var(--border);text-align:right;padding-top:10px}
+  .pt-cell.pt-total-val{border-left:1px solid var(--border);text-align:right;padding:10px 6px}
+  .pt-cell.pt-total-lbl{font-size:11px;padding:10px 8px}
+  .pt-total-num{font-size:15px}
+  .pt-total-pct{font-size:8px;line-height:1.25}
+  .pt-cell.pt-val::before,.pt-cell.pt-total-val::before{content:none}
+  .profit-delta{padding:14px;margin-top:10px}
+  .profit-delta-big{font-size:14px}
+  .profit-delta-sub{font-size:11px}
+  .profit-delta{padding:16px}
+  .calc-card{margin-top:18px}
+  .calc-sec h2{font-size:30px!important;max-width:360px!important}
+  .calc-sec p{max-width:350px}
+  .calc-inputs{grid-template-columns:1fr;padding:14px;gap:10px}
+  .calc-results{padding:14px;grid-template-columns:1fr}
+  .calc-results{padding:14px}
+  .calc-field{gap:5px}
+  .calc-field label{font-size:7.5px;letter-spacing:.05em}
+  .calc-field input,.calc-fixed{font-size:14px;padding:9px 10px}
+  .calc-fixed-note{display:none}
+  .calc-value{font-size:24px}
+  .calc-result-main{padding:14px}
+  .calc-vs{grid-template-columns:1fr 1fr}
+  .calc-pill{padding:10px}
+  .calc-pill .mini{font-size:7.5px;letter-spacing:.07em}
+  .calc-pill strong{font-size:12px}
+  .calc-row{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:8px;padding:9px 0;font-size:10.5px}
+  .calc-row strong{text-align:right;font-size:11.5px}
+  .calc-note{padding:10px;font-size:9.5px;line-height:1.35}
+  .pain-sec h2{font-size:26px!important;max-width:360px!important}
+  .pain-cards{grid-template-columns:1fr 1fr;gap:8px}
+  .pain-card{padding:12px;min-height:150px}
+  .pain-num{font-size:24px;margin-bottom:7px}
+  .pain-card h3{font-size:11px;line-height:1.2;margin-bottom:5px}
+  .pain-card p{font-size:9.5px;line-height:1.3}
+  .pain-tag{display:none}
+  .pain-card.highlight .btn{padding:8px 10px;font-size:9px;margin-top:2px}
+  footer{padding:10px 14px 54px;align-items:center;text-align:center;gap:8px}
+  .footer-logo img{height:100px}
+  .footer-links{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+  .footer-links a{padding:7px 2px;border:1px solid var(--border);border-radius:6px;background:rgba(255,255,255,.7);font-size:8.5px;letter-spacing:.01em}
+  .footer-copy{font-size:8.5px;line-height:1.2}
+  .wa-float{width:46px;height:46px;right:18px;bottom:16px}
+  .wa-float svg{width:23px;height:23px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .scroll-soft{transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo"><img src="logo.png" alt="Belvorich"/></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-panel="p1">The Problem</button>
+    <span class="nav-sep"></span>
+    <button class="nav-tab" data-panel="p2">Our Work</button>
+  </div>
+  <a href="https://wa.me/6287868144238?text=Halo+Belvorich!+Saya+mau+tahu+untuk+jasa+pembuatan+e-commerce+web+nya" class="btn nav-cta" target="_blank">Free Consult</a>
+</nav>
+
+<!-- MOBILE TABS -->
+<div class="mob-tabs" style="display:none">
+  <button class="mob-tab active" data-panel="p1">The Problem</button>
+  <button class="mob-tab" data-panel="p2">Our Work</button>
+</div>
+
+
+
+<!-- ═══════ PANEL 1 ═══════ -->
+<div id="p1" class="panel active">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-wrap">
+      <div class="urgency-badge"><div class="urgency-dot"></div><span>Marketplace fees keep rising</span></div>
+      <h1 class="hero-h">
+        Your marketplace revenue grows.<br/>
+        But your margin <span class="rd">shrinks every year.</span>
+      </h1>
+      <p class="hero-sub">At Rp 300M+/month, a 12–15% marketplace fee can quietly remove hundreds of millions from annual profit.</p>
+      <span class="hero-target">↓ Specifically built for brands doing Rp 300M+ / month in marketplace revenue</span>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="num rd">12–15%</div>
+          <div class="lbl">Estimated 2026 fee range for established marketplace sellers.</div>
+          <a href="https://katadata.co.id" target="_blank" class="src">Ref: Marketplace fee reports · 2025–2026 ↗</a>
+        </div>
+        <div class="hstat">
+          <div class="num rd">7×+</div>
+          <div class="lbl">Increase from the 1–2% baseline in 2020.</div>
+          <a href="https://katadata.co.id" target="_blank" class="src">Ref: Katadata, CNBC Indonesia ↗</a>
+        </div>
+        <div class="hstat">
+          <div class="num gn">2.5%</div>
+          <div class="lbl">Typical website payment gateway fee. No platform commission.</div>
+          <a href="https://midtrans.com" target="_blank" class="src">Ref: Midtrans / Xendit rate cards ↗</a>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-red" onclick="switchPanel('p2')">Stop Losing Margin <span class="arrow">→</span></button>
+        <a href="#fee-history" class="btn btn-ghost-dark">Show Me the Data ↓</a>
+      </div>
+      <p class="hero-note">Free consultation · No commitment · Response within 24h</p>
+    </div>
+  </section>
+
+  <!-- LIVE COUNTER -->
+  <div class="counter-strip" id="counter">
+    <div class="counter-inner">
+      <div>
+        <div class="counter-label">Estimated marketplace fees lost this month</div>
+        <div class="counter-num" id="counter-display">Rp 0</div>
+        <div class="counter-sub">At 12% marketplace fee — edit your number →</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <label style="font-size:11px;color:var(--muted);letter-spacing:.08em;font-weight:600">YOUR MONTHLY REVENUE (RP)</label>
+          <input type="text" id="rev-input" value="300,000,000" inputmode="numeric"
+            style="background:#fff;border:1.5px solid var(--red-border);border-radius:6px;color:var(--text);font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;padding:10px 16px;width:240px;outline:none"/>
+        </div>
+        <button class="btn btn-red btn-sm" onclick="switchPanel('p2')" style="align-self:flex-end">Build My Website →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEE COMPARISON 2020 vs 2026 + TIMELINE -->
+  <div class="fee-sec" id="fee-history">
+    <div class="wrap">
+      <span class="tag tag-red rv">Marketplace Fee Comparison</span>
+      <h2 class="rv d1" style="font-size:clamp(28px,3.5vw,42px);font-weight:800;max-width:760px;margin-bottom:8px">Same Rp 300M monthly revenue. Different fee reality.</h2>
+      <p class="rv d2" style="font-size:15px;color:var(--muted)">This section compares marketplace cost in 2020 vs 2026 using the same revenue baseline.</p>
+      <div class="compare-kicker rv d2">2020 vs 2026 comparison</div>
+
+      <!-- 2020 vs 2026 side-by-side -->
+      <div class="fee-compare rv d2">
+        <div class="fee-col then">
+          <div class="fee-col-label old">Old marketplace fee</div>
+          <div class="fee-col-year ac">2020 — The Honeymoon Phase</div>
+          <div class="fee-pct-big ac">1–2%</div>
+          <p class="fee-pct-desc">Marketplace selling was close to free. Fees were kept low to attract sellers.</p>
+          <div class="fee-rows">
+            <div class="fee-row"><span class="k">Platform commission</span><span class="v ac">1–2%</span></div>
+            <div class="fee-row"><span class="k">On Rp 300M revenue / month</span><span class="v">Rp 3–6M</span></div>
+            <div class="fee-row"><span class="k">Per year to platform</span><span class="v">Rp 36–72M</span></div>
+            <div class="fee-row"><span class="k">Your margin (after COGS 40%)</span><span class="v ac">~57%</span></div>
+          </div>
+          <div class="fee-src-line">Marketplace growth phase</div>
+        </div>
+        <div class="fee-col now">
+          <div class="fee-col-label new">Current marketplace fee</div>
+          <div class="fee-col-year rd">2026 — Your Current Reality</div>
+          <div class="fee-pct-big rd">12–15%</div>
+          <p class="fee-pct-desc">By 2026, the practical fee range is 12–15% before ad spend.</p>
+          <div class="fee-rows">
+            <div class="fee-row"><span class="k">Marketplace base fee</span><span class="v rd">8–10%</span></div>
+            <div class="fee-row"><span class="k">+ service / program fees</span><span class="v rd">+3–4%</span></div>
+            <div class="fee-row"><span class="k">+ processing costs</span><span class="v rd">+1%</span></div>
+            <div class="fee-row"><span class="k">Typical 2026 range</span><span class="v rd">12–15%</span></div>
+            <div class="fee-row"><span class="k">On Rp 300M revenue / month</span><span class="v rd">Rp 36–45M</span></div>
+            <div class="fee-row"><span class="k">Per year to platform</span><span class="v rd">Rp 432–540M</span></div>
+            <div class="fee-row"><span class="k">Your margin (after COGS 40%)</span><span class="v rd">~45–48%</span></div>
+          </div>
+          <div class="fee-src-line">Estimated marketplace seller fee range, 2026</div>
+        </div>
+      </div>
+
+      <!-- Delta callout -->
+      <div class="fee-delta rv">
+        <div class="fee-delta-num">9.5–12.5%</div>
+        <div class="fee-delta-label">of revenue potentially saved by moving from marketplace fees to your own website payment gateway.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEE TIMELINE CHART -->
+  <div class="fee-chart-sec">
+    <div class="wrap">
+      <span class="tag tag-red rv">Fee Trend</span>
+      <h2 class="rv d1" style="font-size:clamp(24px,3vw,38px);font-weight:800;max-width:620px;margin-bottom:8px">Marketplace fees are moving in one direction.</h2>
+      <p class="rv d2" style="font-size:14px;color:var(--muted);margin-bottom:0">A simple view of the cost curve from 2020 to 2026.</p>
+    </div>
+    <div class="wrap rv d2">
+      <div class="fee-chart-wrap">
+        <div class="fee-chart-title">Marketplace Fee Rate — Indonesia (2020–2026)</div>
+        <div class="fee-chart-sub">Estimated marketplace fee range. Excludes ad spend.</div>
+
+        <!-- SVG Bar Chart -->
+        <svg viewBox="0 0 900 260" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- Grid lines -->
+          <line x1="60" y1="20" x2="60" y2="200" stroke="#E2E8F0" stroke-width="1"/>
+          <line x1="60" y1="200" x2="880" y2="200" stroke="#E2E8F0" stroke-width="1"/>
+          <line x1="60" y1="155" x2="880" y2="155" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="60" y1="110" x2="880" y2="110" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="60" y1="65" x2="880" y2="65" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4,4"/>
+          <line x1="60" y1="20" x2="880" y2="20" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="4,4"/>
+          <!-- Y labels -->
+          <text x="50" y="204" font-family="Outfit,sans-serif" font-size="11" fill="#94A3B8" text-anchor="end">0%</text>
+          <text x="50" y="159" font-family="Outfit,sans-serif" font-size="11" fill="#94A3B8" text-anchor="end">4%</text>
+          <text x="50" y="114" font-family="Outfit,sans-serif" font-size="11" fill="#94A3B8" text-anchor="end">8%</text>
+          <text x="50" y="69" font-family="Outfit,sans-serif" font-size="11" fill="#94A3B8" text-anchor="end">12%</text>
+          <text x="50" y="24" font-family="Outfit,sans-serif" font-size="11" fill="#94A3B8" text-anchor="end">15%</text>
+          <!-- Bars: scale 0–15% → 180px height. 1% = 12px -->
+          <!-- 2020: 1.5% avg → 22.5px → y=200-22.5=177.5 -->
+          <rect x="90" y="178" width="80" height="22" fill="rgba(27,71,216,.25)" stroke="rgba(27,71,216,.5)" stroke-width="1" rx="2"/>
+          <text x="130" y="173" font-family="Outfit,sans-serif" font-size="11" fill="#1B47D8" font-weight="700" text-anchor="middle">1–2%</text>
+          <text x="130" y="220" font-family="Outfit,sans-serif" font-size="11" fill="#64748B" text-anchor="middle">2020</text>
+          <!-- 2021: 2.5% avg → 37.5px → y=162.5 -->
+          <rect x="210" y="163" width="80" height="37" fill="rgba(220,38,38,.18)" stroke="rgba(220,38,38,.4)" stroke-width="1" rx="2"/>
+          <text x="250" y="158" font-family="Outfit,sans-serif" font-size="11" fill="#DC2626" font-weight="700" text-anchor="middle">2–3%</text>
+          <text x="250" y="220" font-family="Outfit,sans-serif" font-size="11" fill="#64748B" text-anchor="middle">2021</text>
+          <!-- 2022: 4% avg → 60px → y=140 -->
+          <rect x="330" y="140" width="80" height="60" fill="rgba(220,38,38,.25)" stroke="rgba(220,38,38,.5)" stroke-width="1" rx="2"/>
+          <text x="370" y="135" font-family="Outfit,sans-serif" font-size="11" fill="#DC2626" font-weight="700" text-anchor="middle">3–5%</text>
+          <text x="370" y="220" font-family="Outfit,sans-serif" font-size="11" fill="#64748B" text-anchor="middle">2022</text>
+          <!-- 2023: 5.5% avg → 82.5px → y=117.5 -->
+          <rect x="450" y="118" width="80" height="82" fill="rgba(220,38,38,.35)" stroke="rgba(220,38,38,.6)" stroke-width="1" rx="2"/>
+          <text x="490" y="113" font-family="Outfit,sans-serif" font-size="11" fill="#DC2626" font-weight="700" text-anchor="middle">4–7%</text>
+          <text x="490" y="220" font-family="Outfit,sans-serif" font-size="11" fill="#64748B" text-anchor="middle">2023</text>
+          <!-- 2024: 7% avg → 105px → y=95 -->
+          <rect x="570" y="95" width="80" height="105" fill="rgba(220,38,38,.45)" stroke="rgba(220,38,38,.7)" stroke-width="1" rx="2"/>
+          <text x="610" y="90" font-family="Outfit,sans-serif" font-size="11" fill="#DC2626" font-weight="700" text-anchor="middle">5–8%</text>
+          <text x="610" y="220" font-family="Outfit,sans-serif" font-size="11" fill="#64748B" text-anchor="middle">2024</text>
+          <!-- 2025: 7.5% avg → 112.5px → y=87.5 -->
+          <rect x="690" y="88" width="80" height="112" fill="rgba(220,38,38,.55)" stroke="rgba(220,38,38,.8)" stroke-width="1" rx="2"/>
+          <text x="730" y="83" font-family="Outfit,sans-serif" font-size="11" fill="#DC2626" font-weight="700" text-anchor="middle">6–9%</text>
+          <text x="730" y="220" font-family="Outfit,sans-serif" font-size="11" fill="#64748B" text-anchor="middle">2025</text>
+          <!-- 2026: 12–15% typical range -->
+          <rect x="790" y="38" width="80" height="162" fill="#DC2626" rx="2"/>
+          <text x="830" y="32" font-family="Outfit,sans-serif" font-size="10" fill="#DC2626" font-weight="700" text-anchor="middle">12–15%</text>
+          <text x="830" y="220" font-family="Outfit,sans-serif" font-size="11" fill="#64748B" text-anchor="middle" font-weight="700">2026</text>
+          <!-- Trend arrow -->
+          <path d="M130,175 Q370,120 830,66" fill="none" stroke="rgba(220,38,38,.3)" stroke-width="1.5" stroke-dasharray="5,4"/>
+          <!-- Own website flat line -->
+          <line x1="90" y1="196" x2="870" y2="196" stroke="#16A34A" stroke-width="2" stroke-dasharray="6,4"/>
+          <text x="872" y="200" font-family="Outfit,sans-serif" font-size="10" fill="#16A34A" font-weight="700">2.5% — Your Website</text>
+          <!-- Legend -->
+          <rect x="62" y="238" width="12" height="10" fill="#DC2626" rx="1"/>
+          <text x="78" y="248" font-family="Outfit,sans-serif" font-size="10" fill="#64748B">Marketplace fees (average)</text>
+          <line x1="240" y1="243" x2="260" y2="243" stroke="#16A34A" stroke-width="2" stroke-dasharray="4,3"/>
+          <text x="266" y="248" font-family="Outfit,sans-serif" font-size="10" fill="#64748B">Own website payment gateway (fixed)</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFIT COMPARISON -->
+  <div class="profit-sec">
+    <div class="wrap">
+      <span class="tag tag-red rv">The Real Math — Rp 300M Revenue</span>
+      <h2 class="rv d1" style="font-size:clamp(26px,3vw,40px);font-weight:800;max-width:640px;margin-bottom:8px">Same revenue. Same product cost. Different channel fee.</h2>
+      <p class="rv d2" style="font-size:15px;color:var(--muted);margin-bottom:0">No ad spend included. This compares only unavoidable selling fees: marketplace fee vs website payment gateway.</p>
+      <div class="profit-table rv">
+        <div class="pt-row pt-header">
+          <div class="pt-cell pt-head">Line item</div>
+          <div class="pt-cell pt-head bad pt-val">❌ Marketplace</div>
+          <div class="pt-cell pt-head gn pt-val">✓ Your Website</div>
+        </div>
+        <div class="pt-row">
+          <div class="pt-cell pt-lbl">Revenue</div>
+          <div class="pt-cell pt-val">Rp 300M</div>
+          <div class="pt-cell pt-val">Rp 300M</div>
+        </div>
+        <div class="pt-row">
+          <div class="pt-cell pt-lbl">Selling fee (12% vs 2.5%)</div>
+          <div class="pt-cell pt-val rd">−Rp 36M</div>
+          <div class="pt-cell pt-val ac">−Rp 7.5M</div>
+        </div>
+        <div class="pt-row">
+          <div class="pt-cell pt-lbl">Cost of goods (40%)</div>
+          <div class="pt-cell pt-val rd">−Rp 120M</div>
+          <div class="pt-cell pt-val rd">−Rp 120M</div>
+        </div>
+        <div class="pt-row pt-total">
+          <div class="pt-cell pt-total-lbl">You actually keep</div>
+          <div class="pt-cell pt-total-val">
+            <div class="pt-total-num bad">Rp 144M</div>
+            <div class="pt-total-pct">48% margin after 12% marketplace fee</div>
+          </div>
+          <div class="pt-cell pt-total-val">
+            <div class="pt-total-num gn">Rp 172.5M</div>
+            <div class="pt-total-pct">57.5% margin — locked in</div>
+          </div>
+        </div>
+      </div>
+      <div class="profit-delta rv">
+        <div>
+          <div class="profit-delta-big">+Rp 28.5M more per month on your own website</div>
+          <div class="profit-delta-sub">Same Rp 300M revenue and same COGS. That's Rp 342M / year saved before any ad spend decisions.</div>
+        </div>
+        <button class="btn btn-ac btn-sm" onclick="switchPanel('p2')">See How We Build It <span class="arrow">→</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAVINGS CALCULATOR -->
+  <div class="calc-sec" id="savings-calculator">
+    <div class="wrap">
+      <span class="tag tag-red rv">Savings Calculator</span>
+      <h2 class="rv d1" style="font-size:clamp(26px,3vw,40px);font-weight:800;max-width:680px;margin-bottom:8px">Estimate what moving to your own website could save.</h2>
+      <p class="rv d2" style="font-size:15px;color:var(--muted);margin-bottom:0">Adjust the numbers to match your business. The calculation stays in this browser only.</p>
+
+      <div class="calc-card rv d2">
+        <div class="calc-inputs">
+          <div class="calc-field">
+            <label for="calc-revenue">Monthly revenue (Rp)</label>
+            <input id="calc-revenue" type="text" value="300,000,000" inputmode="numeric"/>
+          </div>
+          <div class="calc-field">
+            <label>Marketplace fee (%)</label>
+            <div class="calc-fixed red" id="calc-market-fee" data-value="12">12–15</div>
+            <div class="calc-fixed-note">2026 range. Uses 12% conservatively.</div>
+          </div>
+          <div class="calc-field">
+            <label>Website payment fee (%)</label>
+            <div class="calc-fixed" id="calc-web-fee" data-value="2.5">2.5</div>
+            <div class="calc-fixed-note">Fixed payment gateway rate.</div>
+          </div>
+        </div>
+        <div class="calc-results">
+          <div class="calc-result-main">
+            <div class="calc-label">Estimated monthly savings</div>
+            <div class="calc-value" id="calc-monthly">Rp 0</div>
+          </div>
+          <div class="calc-vs">
+            <div class="calc-pill market">
+              <div class="mini">Marketplace</div>
+              <strong id="calc-market-fee-total">Rp 0</strong>
+            </div>
+            <div class="calc-pill web">
+              <div class="mini">Website</div>
+              <strong id="calc-web-fee-total">Rp 0</strong>
+            </div>
+          </div>
+          <div class="calc-row">
+            <span>Estimated yearly savings</span>
+            <strong class="gn" id="calc-yearly">Rp 0</strong>
+          </div>
+          <div class="calc-row">
+            <span>Fee difference</span>
+            <strong id="calc-fee-diff">0 percentage points</strong>
+          </div>
+          <div class="calc-note">Privacy note: this calculator runs locally in your browser. No data is tracked, saved, or sent anywhere.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAIN CARDS -->
+  <div class="pain-sec">
+    <div class="wrap">
+      <span class="tag tag-red rv">The Hidden Cost</span>
+      <h2 class="rv d1" style="font-size:clamp(28px,3.5vw,42px);font-weight:800;max-width:680px">Marketplace revenue is not owned revenue.</h2>
+    </div>
+    <div class="wrap">
+      <div class="pain-cards">
+        <div class="pain-card rv">
+          <span class="pain-num">7×+</span>
+          <h3>Fees keep taking more margin.</h3>
+          <p>From 1–2% in 2020 to 12–15% in 2026.</p>
+          <span class="pain-tag">Rising take rate</span>
+        </div>
+        <div class="pain-card rv d1">
+          <span class="pain-num">0</span>
+          <h3>You do not own the customer.</h3>
+          <p>Buyer data stays inside the platform, not your CRM.</p>
+          <span class="pain-tag">No retention engine</span>
+        </div>
+        <div class="pain-card rv">
+          <span class="pain-num">−60%</span>
+          <h3>Traffic can change overnight.</h3>
+          <p>Algorithm changes can reduce visibility without warning.</p>
+          <span class="pain-tag">No channel control</span>
+        </div>
+        <div class="pain-card highlight rv d2">
+          <span class="pain-num" style="font-size:30px">Suspended.</span>
+          <h3>Your store can be suspended.</h3>
+          <p>Policy changes or system errors can stop sales instantly.</p>
+          <div style="margin-top:24px"><button class="btn btn-red btn-sm" onclick="switchPanel('p2')">See the Solution →</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDGE -->
+  <div class="bridge">
+    <div class="bridge-inner">
+      <span class="tag rv">The Real Question</span>
+      <h2 class="rv d1">Will customers actually buy from your website?</h2>
+      <p class="rv d2">Yes, if the buying path feels familiar: fast mobile pages, local payment options, and high-intent traffic sent directly to your store.</p>
+      <div class="trust-points rv d3">
+        <div class="trust-point">
+          <div class="trust-point-icon pay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--ac)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <strong>Easy to pay</strong>
+          <span>QRIS, e-wallet, bank transfer, and payment gateway flow customers already understand.</span>
+        </div>
+        <div class="trust-point">
+          <div class="trust-point-icon buy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          </div>
+          <strong>Easy to buy</strong>
+          <span>Mobile-first product pages, cart, checkout, and admin setup for your team.</span>
+        </div>
+        <div class="trust-point">
+          <div class="trust-point-icon find">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <strong>Easy to find</strong>
+          <span>SEO and Google Ads bring buyers who are already searching for your product.</span>
+        </div>
+      </div>
+      <div class="bridge-actions rv d3">
+        <button class="btn btn-red" onclick="switchPanel('p2')">See Our Work <span class="arrow">→</span></button>
+        <a href="https://wa.me/6287868144238?text=Halo+Belvorich!+Saya+mau+tahu+untuk+jasa+pembuatan+e-commerce+web+nya" class="btn btn-green" target="_blank">Chat on WhatsApp</a>
+      </div>
+      <p class="bridge-note rv">We make the transition seamless, user-friendly, and measurable.</p>
+    </div>
+  </div>
+
+</div><!-- /p1 -->
+
+
+<!-- ═══════ PANEL 2 ═══════ -->
+<div id="p2" class="panel">
+
+  <!-- HERO -->
+  <div class="svc-hero">
+    <span class="tag rv">Belvorich — What We Build</span>
+    <h1 class="rv d1">We build digital infrastructure<br/>that <span class="ac">you own.</span></h1>
+    <p class="rv d2">Website, SEO, and Google Ads for brands ready to own their sales channel.</p>
+    <div class="rv d3" style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="#porto" class="btn btn-ac">See Our Work <span class="arrow">↓</span></a>
+      <a href="https://wa.me/6287868144238?text=Halo+Belvorich!+Saya+mau+tahu+untuk+jasa+pembuatan+e-commerce+web+nya" class="btn btn-ghost-dark" target="_blank">Free Consultation</a>
+    </div>
+  </div>
+
+  <!-- WORK SYSTEM -->
+  <div class="work-system">
+    <div class="wrap">
+      <div class="work-system-head">
+        <div>
+          <span class="tag rv">Launch System</span>
+          <h2 class="rv d1">Everything needed to sell from your <span class="gn">own channel.</span></h2>
+        </div>
+        <p class="rv d2">Not just a pretty website. We connect storefront, payment, traffic, tracking, and handover so your team can actually use it.</p>
+      </div>
+
+      <div class="work-grid">
+        <div class="work-card rv">
+          <span class="wc-step">01 — What's Included</span>
+          <h3>Feature checklist</h3>
+          <ul class="feature-checks">
+            <li>Product catalog</li>
+            <li>Cart and checkout</li>
+            <li>Payment gateway</li>
+            <li>Promo pages</li>
+            <li>Admin dashboard</li>
+            <li>SEO setup</li>
+            <li>Google Ads pages</li>
+            <li>Conversion tracking</li>
+          </ul>
+        </div>
+
+        <div class="work-card rv d1">
+          <span class="wc-step">02 — How We Work</span>
+          <h3>How we launch</h3>
+          <ul class="process-steps">
+            <li>
+              <span class="step-num">01</span>
+              <span class="step-copy"><strong>Audit</strong><span>Map products, checkout flow, traffic source, and conversion gaps.</span></span>
+            </li>
+            <li>
+              <span class="step-num">02</span>
+              <span class="step-copy"><strong>Build</strong><span>Design and develop the storefront, payment flow, and core pages.</span></span>
+            </li>
+            <li>
+              <span class="step-num">03</span>
+              <span class="step-copy"><strong>Launch</strong><span>Connect SEO, Google Ads, tracking, and team handover.</span></span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="work-card rv d2">
+          <span class="wc-step">03 — After Launch</span>
+          <h3>Built for handover</h3>
+          <div class="trust-builder">
+            <div class="trust-line">
+              <strong>No-code daily updates</strong>
+              <span>Your team can update products, prices, banners, and basic pages.</span>
+            </div>
+            <div class="trust-line">
+              <strong>Clear sales visibility</strong>
+              <span>Track traffic, conversions, and which campaigns bring buyers.</span>
+            </div>
+            <div class="trust-line">
+              <strong>Support after launch</strong>
+              <span>We stay close through launch so the channel is actually adopted.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICE 01 — WEBSITE -->
+  <div class="svc-section">
+    <div class="wrap">
+      <div class="svc-split rv">
+        <div>
+          <span class="svc-tag">01 — Website &amp; E-Commerce</span>
+          <h2 class="svc-h">Your store. Your rules.<br/><span class="gn">Zero platform cut.</span></h2>
+          <p class="svc-p">A mobile-first e-commerce site your team can manage independently.</p>
+          <ul class="svc-list">
+            <li>Custom brand design</li>
+            <li>Products, cart, checkout</li>
+            <li>QRIS, e-wallet, and bank transfer setup</li>
+            <li>Admin panel for your team</li>
+            <li>Domain, hosting, and launch support</li>
+          </ul>
+          <a href="https://wa.me/6287868144238?text=Halo+Belvorich!+Saya+mau+tahu+untuk+jasa+pembuatan+e-commerce+web+nya" class="btn btn-ac" target="_blank">Discuss My Website →</a>
+        </div>
+        <div>
+          <svg viewBox="0 0 460 320" width="100%" style="border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow-md)" xmlns="http://www.w3.org/2000/svg">
+            <rect width="460" height="320" fill="#F4F7FF" rx="6"/>
+            <rect width="460" height="36" fill="#0B1A45" rx="6"/>
+            <rect x="0" y="28" width="460" height="8" fill="#0B1A45"/>
+            <circle cx="16" cy="18" r="5" fill="#DC2626" opacity=".7"/>
+            <circle cx="32" cy="18" r="5" fill="#F59E0B" opacity=".7"/>
+            <circle cx="48" cy="18" r="5" fill="#22C55E" opacity=".7"/>
+            <rect x="68" y="10" width="260" height="16" rx="3" fill="rgba(255,255,255,.08)"/>
+            <text x="80" y="22" font-family="Outfit,sans-serif" font-size="9" fill="rgba(255,255,255,.4)">🔒 yourbrand.com</text>
+            <rect x="0" y="36" width="460" height="36" fill="#0F2660"/>
+            <text x="24" y="58" font-family="Outfit,sans-serif" font-size="10" fill="white" font-weight="700">BRAND</text>
+            <rect x="340" y="48" width="70" height="14" rx="2" fill="#1B47D8"/>
+            <text x="375" y="59" font-family="Outfit,sans-serif" font-size="8" fill="white" font-weight="600" text-anchor="middle">SHOP NOW</text>
+            <rect x="0" y="72" width="460" height="88" fill="#EBF0FF"/>
+            <text x="24" y="108" font-family="Outfit,sans-serif" font-size="18" fill="#0B1629" font-weight="800">Your Brand.</text>
+            <text x="24" y="132" font-family="Outfit,sans-serif" font-size="18" fill="#1B47D8" font-weight="800">Your Store.</text>
+            <rect x="24" y="142" width="80" height="16" rx="3" fill="#1B47D8"/>
+            <text x="64" y="154" font-family="Outfit,sans-serif" font-size="8" fill="white" font-weight="700" text-anchor="middle">SHOP NOW</text>
+            <rect x="20" y="172" width="96" height="100" rx="4" fill="white" stroke="#E2E8F0" stroke-width="1"/>
+            <rect x="30" y="182" width="76" height="52" rx="2" fill="rgba(27,71,216,.08)"/>
+            <text x="30" y="250" font-family="Outfit,sans-serif" font-size="9" fill="#64748B">Product Name</text>
+            <text x="30" y="263" font-family="Outfit,sans-serif" font-size="9" fill="#1B47D8" font-weight="700">Rp 150.000</text>
+            <rect x="128" y="172" width="96" height="100" rx="4" fill="white" stroke="#E2E8F0" stroke-width="1"/>
+            <rect x="138" y="182" width="76" height="52" rx="2" fill="rgba(27,71,216,.08)"/>
+            <text x="138" y="250" font-family="Outfit,sans-serif" font-size="9" fill="#64748B">Product Name</text>
+            <text x="138" y="263" font-family="Outfit,sans-serif" font-size="9" fill="#1B47D8" font-weight="700">Rp 220.000</text>
+            <rect x="236" y="172" width="96" height="100" rx="4" fill="white" stroke="#E2E8F0" stroke-width="1"/>
+            <rect x="246" y="182" width="76" height="52" rx="2" fill="rgba(27,71,216,.08)"/>
+            <text x="246" y="250" font-family="Outfit,sans-serif" font-size="9" fill="#64748B">Product Name</text>
+            <text x="246" y="263" font-family="Outfit,sans-serif" font-size="9" fill="#1B47D8" font-weight="700">Rp 180.000</text>
+            <rect x="344" y="172" width="96" height="100" rx="4" fill="white" stroke="#E2E8F0" stroke-width="1"/>
+            <rect x="354" y="182" width="76" height="52" rx="2" fill="rgba(27,71,216,.08)"/>
+            <text x="354" y="250" font-family="Outfit,sans-serif" font-size="9" fill="#64748B">Product Name</text>
+            <text x="354" y="263" font-family="Outfit,sans-serif" font-size="9" fill="#1B47D8" font-weight="700">Rp 95.000</text>
+            <text x="20" y="290" font-family="Outfit,sans-serif" font-size="9" fill="#94A3B8">✓ Mobile-first  ✓ Payment integrated  ✓ SEO-ready</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICE 02 — SEO -->
+  <div class="svc-section alt">
+    <div class="wrap">
+      <div class="svc-split rv">
+        <div>
+          <svg viewBox="0 0 460 296" width="100%" style="border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-md)" xmlns="http://www.w3.org/2000/svg">
+            <!-- bg -->
+            <rect width="460" height="296" fill="#FFF9F4" rx="10"/>
+            <!-- search bar -->
+            <rect x="20" y="20" width="420" height="40" rx="20" fill="white" stroke="#DDD8D0" stroke-width="1.5"/>
+            <text x="44" y="45" font-family="Outfit,sans-serif" font-size="11" fill="#94A3B8">🔍  skincare lokal terbaik indonesia</text>
+            <!-- result #1 card -->
+            <rect x="20" y="76" width="420" height="80" rx="6" fill="rgba(22,163,74,.06)" stroke="rgba(22,163,74,.28)" stroke-width="1.2"/>
+            <!-- favicon -->
+            <rect x="32" y="89" width="18" height="18" rx="4" fill="#16A34A"/>
+            <text x="41" y="102" font-family="Outfit,sans-serif" font-size="10" fill="white" font-weight="800" text-anchor="middle">B</text>
+            <!-- #1 badge -->
+            <rect x="370" y="86" width="54" height="22" rx="11" fill="rgba(22,163,74,.12)" stroke="rgba(22,163,74,.3)" stroke-width="1"/>
+            <text x="397" y="101" font-family="Outfit,sans-serif" font-size="10" fill="#16A34A" font-weight="800" text-anchor="middle">#1</text>
+            <!-- URL breadcrumb -->
+            <text x="56" y="102" font-family="Outfit,sans-serif" font-size="10" fill="#16A34A" font-weight="600">yourbrand.com › produk</text>
+            <!-- title -->
+            <text x="32" y="122" font-family="Outfit,sans-serif" font-size="12.5" fill="#0B1629" font-weight="700">Skincare Lokal Terbaik — Produk Asli Indonesia</text>
+            <!-- description -->
+            <text x="32" y="143" font-family="Outfit,sans-serif" font-size="10" fill="#64748B">Skincare premium berbahan alami, dipercaya ribuan pelanggan. Gratis ongkir...</text>
+            <!-- competitor 1 -->
+            <rect x="20" y="168" width="420" height="46" rx="5" fill="white" stroke="#E8E4DC" stroke-width="1"/>
+            <text x="32" y="186" font-family="Outfit,sans-serif" font-size="10" fill="#94A3B8">competitor.com › products</text>
+            <text x="32" y="204" font-family="Outfit,sans-serif" font-size="11" fill="#94A3B8">Produk Skincare — Competitor Brand</text>
+            <!-- competitor 2 -->
+            <rect x="20" y="224" width="420" height="46" rx="5" fill="white" stroke="#E8E4DC" stroke-width="1"/>
+            <text x="32" y="242" font-family="Outfit,sans-serif" font-size="10" fill="#C4C9D4">anotherbrand.co.id › skincare</text>
+            <text x="32" y="260" font-family="Outfit,sans-serif" font-size="11" fill="#C4C9D4">Skincare Indonesia — Another Brand</text>
+            <!-- footer note -->
+            <text x="20" y="285" font-family="Outfit,sans-serif" font-size="9" fill="#94A3B8">Organic traffic · No cost per click once ranked · Compounding results</text>
+          </svg>
+        </div>
+        <div>
+          <span class="svc-tag">02 — Search Engine Optimisation (SEO)</span>
+          <h2 class="svc-h">When people search,<br/><span class="gn">you appear first.</span></h2>
+          <p class="svc-p">Rank on Google for buyers already searching for your product.</p>
+          <div class="svc-stats">
+            <div class="svc-stat">
+              <div class="big" style="color:var(--ac)">3–6</div>
+              <div class="sml">months to rank for target keywords</div>
+            </div>
+            <div class="svc-stat">
+              <div class="big">Free</div>
+              <div class="sml">traffic once ranked</div>
+            </div>
+            <div class="svc-stat">
+              <div class="big" style="color:var(--ac)">92%</div>
+              <div class="sml">of clicks go to page 1 results</div>
+            </div>
+            <div class="svc-stat">
+              <div class="big">∞</div>
+              <div class="sml">compounding over time</div>
+            </div>
+          </div>
+          <a href="https://wa.me/6287868144238?text=Halo+Belvorich!+Saya+mau+tahu+untuk+jasa+pembuatan+e-commerce+web+nya" class="btn btn-ac" target="_blank">Ask About SEO →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICE 03 — GOOGLE ADS -->
+  <div class="svc-section">
+    <div class="wrap">
+      <div class="svc-split rv">
+        <div>
+          <span class="svc-tag">03 — Google Ads</span>
+          <h2 class="svc-h">Reach buyers<br/><span class="ac">the moment they search.</span></h2>
+          <p class="svc-p">Send high-intent search traffic directly to your own website.</p>
+          <ul class="svc-list">
+            <li>Buyer keyword research</li>
+            <li>Conversion-focused ad copy</li>
+            <li>Budget optimisation</li>
+            <li>Plain-language monthly reporting</li>
+            <li>Landing page alignment</li>
+          </ul>
+          <a href="https://wa.me/6287868144238?text=Halo+Belvorich!+Saya+mau+tahu+untuk+jasa+pembuatan+e-commerce+web+nya" class="btn btn-ac" target="_blank">Ask About Google Ads →</a>
+        </div>
+        <div>
+          <svg viewBox="0 0 460 300" width="100%" style="border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow)" xmlns="http://www.w3.org/2000/svg">
+            <rect width="460" height="300" fill="#F8FAFF" rx="6"/>
+            <text x="230" y="28" font-family="Outfit,sans-serif" font-size="11" fill="#64748B" text-anchor="middle" font-weight="600">How Google Ads Delivers Buyers to Your Website</text>
+            <polygon points="60,44 400,44 340,104 120,104" fill="rgba(220,38,38,.07)" stroke="rgba(220,38,38,.2)" stroke-width="1.5"/>
+            <text x="230" y="80" font-family="Outfit,sans-serif" font-size="12" fill="#0B1629" font-weight="700" text-anchor="middle">10,000 See Your Ad</text>
+            <polygon points="120,108 340,108 300,168 160,168" fill="rgba(27,71,216,.1)" stroke="rgba(27,71,216,.25)" stroke-width="1.5"/>
+            <text x="230" y="144" font-family="Outfit,sans-serif" font-size="11" fill="#0B1629" font-weight="700" text-anchor="middle">500 Click</text>
+            <polygon points="160,172 300,172 272,220 188,220" fill="rgba(27,71,216,.2)" stroke="#1B47D8" stroke-width="1.5"/>
+            <text x="230" y="200" font-family="Outfit,sans-serif" font-size="9.5" fill="#0B1629" font-weight="700" text-anchor="middle">150 Browse</text>
+            <polygon points="188,224 272,224 252,264 208,264" fill="#1B47D8"/>
+            <text x="230" y="250" font-family="Outfit,sans-serif" font-size="9.5" fill="white" font-weight="700" text-anchor="middle">30 Buyers</text>
+            <rect x="278" y="212" width="162" height="62" rx="4" fill="rgba(22,163,74,.07)" stroke="rgba(22,163,74,.25)" stroke-width="1"/>
+            <text x="359" y="234" font-family="Outfit,sans-serif" font-size="9" fill="#16A34A" text-anchor="middle" font-weight="700">ILLUSTRATIVE RESULT</text>
+            <text x="359" y="252" font-family="Outfit,sans-serif" font-size="10.5" fill="#0B1629" text-anchor="middle" font-weight="600">Spend Rp 5M → Earn Rp 25M</text>
+            <text x="359" y="266" font-family="Outfit,sans-serif" font-size="10" fill="#16A34A" text-anchor="middle" font-weight="700">5× ROAS (actual results vary)</text>
+            <text x="20" y="288" font-family="Outfit,sans-serif" font-size="9" fill="#94A3B8">High-intent buyers · Full margin stays with you · Measurable ROI</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div class="porto-sec" id="porto">
+    <div class="wrap">
+      <span class="tag rv">Portfolio</span>
+      <h2 class="rv d1" style="font-size:clamp(26px,3vw,40px);font-weight:800;margin-bottom:8px">Brands that trusted us.</h2>
+      <p class="rv d2" style="font-size:15px;color:var(--muted)">Selected brand systems and storefronts.</p>
+      <div class="porto-grid rv">
+
+        <a href="#" target="_blank" class="porto-item">
+          <svg viewBox="0 0 160 55" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="20" width="52" height="14" rx="3" fill="#0B1629"/><rect x="62" y="10" width="98" height="8" rx="2" fill="#0B1629"/><rect x="62" y="23" width="72" height="8" rx="2" fill="#0B1629"/><rect x="62" y="36" width="84" height="8" rx="2" fill="#0B1629"/></svg>
+        </a>
+
+        <a href="#" target="_blank" class="porto-item">
+          <svg viewBox="0 0 160 55" xmlns="http://www.w3.org/2000/svg"><circle cx="27" cy="27" r="22" fill="none" stroke="#0B1629" stroke-width="3"/><text x="90" y="33" font-family="sans-serif" font-size="17" fill="#0B1629" font-weight="800" text-anchor="middle">BRAND</text></svg>
+        </a>
+
+        <a href="#" target="_blank" class="porto-item">
+          <svg viewBox="0 0 160 55" xmlns="http://www.w3.org/2000/svg"><polygon points="27,6 50,48 4,48" fill="none" stroke="#0B1629" stroke-width="3"/><text x="100" y="33" font-family="sans-serif" font-size="15" fill="#0B1629" font-weight="800" text-anchor="middle">STUDIO</text></svg>
+        </a>
+
+        <a href="#" target="_blank" class="porto-item">
+          <svg viewBox="0 0 160 55" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="12" width="44" height="30" rx="6" fill="none" stroke="#0B1629" stroke-width="3"/><text x="100" y="33" font-family="sans-serif" font-size="17" fill="#0B1629" font-weight="800" text-anchor="middle">CO.</text></svg>
+        </a>
+
+        <a href="#" target="_blank" class="porto-item">
+          <svg viewBox="0 0 160 55" xmlns="http://www.w3.org/2000/svg"><text x="80" y="38" font-family="sans-serif" font-size="28" fill="#0B1629" font-weight="900" text-anchor="middle">BX</text></svg>
+        </a>
+
+        <a href="#" target="_blank" class="porto-item">
+          <svg viewBox="0 0 160 55" xmlns="http://www.w3.org/2000/svg"><path d="M8,27 Q40,6 80,27 Q120,48 152,27" fill="none" stroke="#0B1629" stroke-width="3"/><circle cx="8" cy="27" r="4" fill="#0B1629"/><circle cx="152" cy="27" r="4" fill="#0B1629"/></svg>
+        </a>
+
+        <a href="#" target="_blank" class="porto-item">
+          <svg viewBox="0 0 160 55" xmlns="http://www.w3.org/2000/svg"><text x="80" y="35" font-family="sans-serif" font-size="15" fill="#0B1629" font-weight="800" text-anchor="middle" letter-spacing="3">ATELIER</text></svg>
+        </a>
+
+        <a href="#" target="_blank" class="porto-item">
+          <svg viewBox="0 0 160 55" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="10" width="28" height="28" fill="#0B1629" opacity=".6"/><rect x="20" y="18" width="28" height="28" fill="none" stroke="#0B1629" stroke-width="2.5"/><text x="72" y="33" font-family="sans-serif" font-size="14" fill="#0B1629" font-weight="800">GROUP</text></svg>
+        </a>
+
+        <a href="#" target="_blank" class="porto-item">
+          <svg viewBox="0 0 160 55" xmlns="http://www.w3.org/2000/svg"><polygon points="80,6 98,48 62,48" fill="#0B1629" opacity=".5"/><polygon points="80,14 100,52 60,52" fill="none" stroke="#0B1629" stroke-width="2"/></svg>
+        </a>
+
+        <a href="https://wa.me/6287868144238?text=Halo+Belvorich!+Saya+mau+tahu+untuk+jasa+pembuatan+e-commerce+web+nya" target="_blank" class="porto-item porto-cta">
+          <div class="plus">+</div>
+          <div class="lbl">Your Brand<br/>Here</div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL CTA -->
+  <div class="final-cta">
+    <div class="final-cta-inner">
+      <div class="slots-badge rv"><div class="urgency-dot"></div><span>Limited project slots available this month</span></div>
+      <h2 class="rv d1">Done funding<br/><span class="rd">someone else's platform?</span><br/>Let's <span class="ac">build yours.</span></h2>
+      <p class="rv d2">Free consultation for brands doing Rp 300M+/month.</p>
+      <div class="final-actions rv d3">
+        <a href="https://wa.me/6287868144238?text=Halo+Belvorich!+Saya+mau+tahu+untuk+jasa+pembuatan+e-commerce+web+nya" class="btn btn-green" target="_blank">Chat on WhatsApp</a>
+      </div>
+      <p class="final-note rv">Response within 24h · Free consultation · For brands doing Rp 300M+/month</p>
+    </div>
+  </div>
+
+</div><!-- /p2 -->
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><img src="logo.png" alt="Belvorich"/></div>
+  <div class="footer-links">
+    <a href="#" onclick="switchPanel('p1');return false">The Problem</a>
+    <a href="#" onclick="switchPanel('p2');return false">Our Work</a>
+    <a href="https://wa.me/6287868144238" target="_blank">WhatsApp</a>
+    <a href="https://instagram.com/belvorich.id" target="_blank">Instagram</a>
+  </div>
+  <p class="footer-copy">© 2026 Belvorich — Build What's Yours.</p>
+</footer>
+
+<!-- FLOATING WA -->
+<a class="wa-float" href="https://wa.me/6287868144238?text=Halo+Belvorich!+Saya+mau+tahu+untuk+jasa+pembuatan+e-commerce+web+nya" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// ── Scroll polish
+const navEl=document.getElementById('navbar');
+let tickingScroll=false;
+
+document.querySelectorAll('.hero-wrap,.svc-hero,.bridge-inner,.final-cta-inner').forEach(el=>{
+  el.classList.add('scroll-soft');
+});
+
+function updateScrollEffects(){
+  const scrollTop=window.scrollY||document.documentElement.scrollTop;
+  if(navEl)navEl.classList.toggle('scrolled',scrollTop>12);
+
+  document.querySelectorAll('.panel.active .scroll-soft').forEach(el=>{
+    const rect=el.getBoundingClientRect();
+    if(rect.bottom<0||rect.top>window.innerHeight)return;
+    const drift=Math.max(-18,Math.min(18,(window.innerHeight/2-rect.top)*.018));
+    el.style.transform=`translateY(${drift}px)`;
+  });
+  tickingScroll=false;
+}
+
+function requestScrollEffects(){
+  if(tickingScroll)return;
+  tickingScroll=true;
+  requestAnimationFrame(updateScrollEffects);
+}
+window.addEventListener('scroll',requestScrollEffects,{passive:true});
+window.addEventListener('resize',requestScrollEffects);
+updateScrollEffects();
+
+// ── Panel switch
+function switchPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-tab,.mob-tab,.sw-panel').forEach(t=>{
+    t.classList.toggle('active',t.dataset.panel===id);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateScrollEffects();
+  setTimeout(triggerReveal,120);
+}
+document.querySelectorAll('.nav-tab,.mob-tab,.sw-panel').forEach(t=>{
+  t.addEventListener('click',()=>switchPanel(t.dataset.panel));
+});
+
+// ── Reveal on scroll
+function triggerReveal(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target)}});
+  },{threshold:.1});
+  document.querySelectorAll('.rv:not(.on)').forEach(el=>obs.observe(el));
+}
+triggerReveal();
+
+// ── Revenue input formatter (commas as thousands separator)
+function formatRevInput(el){
+  const pos=el.selectionStart;
+  const before=el.value.length;
+  const digits=el.value.replace(/[^0-9]/g,'');
+  const num=parseInt(digits,10);
+  el.value=digits===''?'':num.toLocaleString('en-US');
+  // restore cursor position approximately
+  const diff=el.value.length-before;
+  try{el.setSelectionRange(pos+diff,pos+diff);}catch(e){}
+  return num||0;
+}
+['rev-input','calc-revenue'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)el.addEventListener('input',()=>formatRevInput(el));
+});
+
+// ── Live counter (12% marketplace fee, days elapsed this month)
+const today=new Date().getDate();
+function calcLoss(){
+  const raw=(document.getElementById('rev-input').value||'').replace(/,/g,'');
+  return (parseFloat(raw)||300000000)*0.12/30*today;
+}
+function tickCounter(){
+  const el=document.getElementById('counter-display');
+  if(el)el.textContent='Rp '+Math.round(calcLoss()).toLocaleString('id-ID');
+}
+document.getElementById('rev-input').addEventListener('input',tickCounter);
+tickCounter();
+
+// ── Savings calculator (local only; no tracking or storage)
+function formatRp(value){
+  const sign=value<0?'-':'';
+  return sign+'Rp '+Math.round(Math.abs(value)).toLocaleString('id-ID');
+}
+function getCalcNumber(id,fallback=0){
+  const el=document.getElementById(id);
+  if(!el)return fallback;
+  const raw=el.dataset?.value||('value' in el?el.value:el.textContent);
+  return parseFloat(String(raw).replace(/,/g,''))||fallback;
+}
+function updateSavingsCalculator(){
+  const revenue=getCalcNumber('calc-revenue',300000000);
+  const marketFee=getCalcNumber('calc-market-fee',12);
+  const webFee=getCalcNumber('calc-web-fee',2.5);
+  const marketCost=revenue*(marketFee/100);
+  const webCost=revenue*(webFee/100);
+  const monthlySavings=marketCost-webCost;
+  const feeDiff=marketFee-webFee;
+
+  const monthlyEl=document.getElementById('calc-monthly');
+  const yearlyEl=document.getElementById('calc-yearly');
+  const feeDiffEl=document.getElementById('calc-fee-diff');
+  const marketFeeTotalEl=document.getElementById('calc-market-fee-total');
+  const webFeeTotalEl=document.getElementById('calc-web-fee-total');
+
+  if(monthlyEl)monthlyEl.textContent=formatRp(monthlySavings);
+  if(yearlyEl)yearlyEl.textContent=formatRp(monthlySavings*12);
+  if(feeDiffEl)feeDiffEl.textContent=(Math.round(feeDiff*10)/10).toLocaleString('id-ID')+' percentage points';
+  if(marketFeeTotalEl)marketFeeTotalEl.textContent=formatRp(marketCost);
+  if(webFeeTotalEl)webFeeTotalEl.textContent=formatRp(webCost);
+}
+document.querySelectorAll('#savings-calculator input').forEach(input=>{
+  input.addEventListener('input',updateSavingsCalculator);
+});
+updateSavingsCalculator();
+
+// ── Profit bars
+function animateBars(){
+  document.querySelectorAll('.profit-fill[data-w]').forEach(el=>{
+    if(el.classList.contains('anim'))return;
+    const rect=el.closest('.profit-track')?.getBoundingClientRect();
+    if(rect&&rect.top<window.innerHeight-40){
+      el.style.width=el.dataset.w;
+      el.classList.add('anim');
+    }
+  });
+}
+window.addEventListener('scroll',animateBars,{passive:true});
+animateBars();
+
+</script>
+</body>
+</html>
